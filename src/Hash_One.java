@@ -36,7 +36,17 @@ public class Hash_One {
                     arr = helper.processDictWords(input,arr);
                     file = helper.processText(input2,file);
                     dictionary = collisions.separateChaining(dictionary, helper);
-                    dictionary = code.polynomialHashTable(helper,function,dictionary,arr);
+
+                    String word;
+                    long hcode = 0;
+                    int index = 0;
+                    for(int i = 0; i < helper.getNumDict(); i++){
+                        word = arr.get(i);
+                        hcode = code.polynomialHashWord(helper, word);
+                        index = function.goldenRatioHashFunc(helper, hcode);
+                        dictionary.get(index).add(word);
+                    }
+
                     for(int i = 0; i < file.size(); i++){
                         spellCheck(helper, code, function, dictionary, file.get(i));
                     }
@@ -59,7 +69,8 @@ public class Hash_One {
     {
         String noChar = word.replaceAll("[^a-zA-Z0-9']", "");
         String temp;
-        int index = code.polynomialHashWord(helper,func, noChar);
+        long hcode = code.polynomialHashWord(helper, noChar);
+        int index = func.goldenRatioHashFunc(helper, hcode);
         boolean found;
         found = helper.findWord(dictionary, index, noChar);
         lookUp++;
@@ -67,26 +78,30 @@ public class Hash_One {
             if(Character.isUpperCase(word.charAt(0))){
                 lookUp++;
                 temp = noChar.toLowerCase();
-                index = code.polynomialHashWord(helper,func, temp);
+                hcode = code.polynomialHashWord(helper, temp);
+                index = func.goldenRatioHashFunc(helper, hcode);
                 found = helper.findWord(dictionary, index, temp);
             }
             if(!found){
                 if(word.endsWith("'s")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    index = code.polynomialHashWord(helper,func, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
+                    index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }
                 if(word.endsWith("s")){
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        index = code.polynomialHashWord(helper,func, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
+                        index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                         if(!found && word.endsWith("es")){
                             lookUp++;
                             temp = noChar.substring(0, noChar.length() - 2);
-                            index = code.polynomialHashWord(helper,func, temp);
+                            hcode = code.polynomialHashWord(helper, temp);
+                            index = func.goldenRatioHashFunc(helper, hcode);
                             found = helper.findWord(dictionary, index, temp);
                         }
                     }
@@ -94,44 +109,51 @@ public class Hash_One {
                 if(word.endsWith("ed")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    index = code.polynomialHashWord(helper,func, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
+                    index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);;
                     if(!found && word.endsWith("d")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        index = code.polynomialHashWord(helper,func, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
+                        index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
                 }
                 if(word.endsWith("er")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    index = code.polynomialHashWord(helper,func, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
+                    index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found && word.endsWith("r")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        index = code.polynomialHashWord(helper,func, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
+                        index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
                 }
                 if(word.endsWith("ing")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 3);
-                    index = code.polynomialHashWord(helper,func, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
+                    index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 3);
                         temp = temp + "e";
-                        index = code.polynomialHashWord(helper,func, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
+                        index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
                 }
                 if(word.endsWith("ly")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    index = code.polynomialHashWord(helper,func, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
+                    index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }
             }

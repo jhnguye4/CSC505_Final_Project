@@ -40,6 +40,8 @@ public class Hash_Two {
                     String word;
                     long hcode = 0;
                     int index = 0;
+
+                    long start = System.nanoTime();
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
                         hcode = code.additiveHashWord(helper, word);
@@ -50,10 +52,17 @@ public class Hash_Two {
                     for(int i = 0; i < file.size(); i++){
                         spellCheck(helper, code, function, dictionary, file.get(i));
                     }
+
+                    long end = System.nanoTime();
+                    //Calculating the runtime of this algorithm and the number of comparisons it would take.
+                    long sortTimeInNano = end - start;
+                    double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
+
                     System.out.println("(3) The number of misspelled words in the text: " + mispelled);
                     System.out.println("(4) The total number of probes during the checking phase: " + helper.getTotalProbe());
                     System.out.println("(5) The average number of probes per word checked: " + (double)helper.getTotalProbe()/helper.getNumText());
-                    System.out.println("(6) The average number of probes per lookup operation " + (double)lookUp/helper.getNumText());
+                    System.out.println("(6) Load Factor " + helper.countFilledSeparateChaining(dictionary));
+                    System.out.println("(7) Run Time " + sortTimeIn10thSeconds);
                 }
             }
         } else {

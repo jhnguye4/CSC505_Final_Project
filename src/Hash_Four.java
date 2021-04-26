@@ -47,8 +47,8 @@ public class Hash_Four {
 
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
-                        hcode = code.polynomialHashWord(helper, word);
-                        index = function.goldenRatioHashFunc(helper, hcode);
+                        hcode = code.cyclicShiftHashWord(helper, word);
+                        index = function.multiplyAddDivideHashFunc(helper, hcode);
                         dictionary.get(index).add(word);
                     }
 
@@ -103,8 +103,8 @@ public class Hash_Four {
     {
         String noChar = word.replaceAll("[^a-zA-Z0-9']", "");
         String temp;
-        long hcode = code.polynomialHashWord(helper, noChar);
-        int index = func.goldenRatioHashFunc(helper, hcode);
+        long hcode = code.cyclicShiftHashWord(helper, noChar);
+        int index = func.multiplyAddDivideHashFunc(helper, hcode);
         boolean found;
         found = helper.findWord(dictionary, index, noChar);
         lookUp++;
@@ -112,30 +112,30 @@ public class Hash_Four {
             if(Character.isUpperCase(word.charAt(0))){
                 lookUp++;
                 temp = noChar.toLowerCase();
-                hcode = code.polynomialHashWord(helper, temp);
-                index = func.goldenRatioHashFunc(helper, hcode);
+                hcode = code.cyclicShiftHashWord(helper, temp);
+                index = func.multiplyAddDivideHashFunc(helper, hcode);
                 found = helper.findWord(dictionary, index, temp);
             }
             if(!found){
                 if(word.endsWith("'s")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.polynomialHashWord(helper, temp);
-                    index = func.goldenRatioHashFunc(helper, hcode);
+                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }
                 if(word.endsWith("s")){
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.polynomialHashWord(helper, temp);
-                        index = func.goldenRatioHashFunc(helper, hcode);
+                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                         if(!found && word.endsWith("es")){
                             lookUp++;
                             temp = noChar.substring(0, noChar.length() - 2);
-                            hcode = code.polynomialHashWord(helper, temp);
-                            index = func.goldenRatioHashFunc(helper, hcode);
+                            hcode = code.cyclicShiftHashWord(helper, temp);
+                            index = func.multiplyAddDivideHashFunc(helper, hcode);
                             found = helper.findWord(dictionary, index, temp);
                         }
                     }
@@ -143,51 +143,51 @@ public class Hash_Four {
                 if(word.endsWith("ed")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.polynomialHashWord(helper, temp);
-                    index = func.goldenRatioHashFunc(helper, hcode);
+                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);;
                     if(!found && word.endsWith("d")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.polynomialHashWord(helper, temp);
-                        index = func.goldenRatioHashFunc(helper, hcode);
+                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
                 }
                 if(word.endsWith("er")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.polynomialHashWord(helper, temp);
-                    index = func.goldenRatioHashFunc(helper, hcode);
+                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found && word.endsWith("r")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.polynomialHashWord(helper, temp);
-                        index = func.goldenRatioHashFunc(helper, hcode);
+                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
                 }
                 if(word.endsWith("ing")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 3);
-                    hcode = code.polynomialHashWord(helper, temp);
-                    index = func.goldenRatioHashFunc(helper, hcode);
+                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 3);
                         temp = temp + "e";
-                        hcode = code.polynomialHashWord(helper, temp);
-                        index = func.goldenRatioHashFunc(helper, hcode);
+                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
                 }
                 if(word.endsWith("ly")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.polynomialHashWord(helper, temp);
-                    index = func.goldenRatioHashFunc(helper, hcode);
+                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }
             }

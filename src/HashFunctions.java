@@ -15,7 +15,7 @@ public class HashFunctions {
         return Math.abs(hash);
     }
     public int divisionHashFunc(Utils helper, long code){
-        int hash = (int)(code % 12289);
-        return hash;
+        int hash = (int)(code % 48673);
+        return Math.abs(hash);
     }
 }

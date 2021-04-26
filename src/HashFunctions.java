@@ -9,10 +9,10 @@ public class HashFunctions {
         return hash;
     }
     public int multiplyAddDivideHashFunc(Utils helper, long code){
-        int a = 13;
-        int b = 1234;
-        int hash = (int)((a*code + b) % 12289);
-        return hash;
+        int a = 1234;
+        int b = 5230;
+        int hash = (int)(((a*code + b) % 58693) % (2*helper.getNumDict()));
+        return Math.abs(hash);
     }
     public int divisionHashFunc(Utils helper, long code){
         int hash = (int)(code % 12289);

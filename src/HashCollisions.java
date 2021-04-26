@@ -10,8 +10,21 @@ public class HashCollisions {
         return dictionary;
     }
 
-    public void coalescedChaining(){
-        //TODO
+    public ArrayList<Vector> coalescedChaining(ArrayList<Vector> dictionary, Utils helper){
+        dictionary = new ArrayList<Vector>(helper.getNumDict());
+        
+        for(int i = 0; i < dictionary.size(); i++){
+            LinkedList<String> list = new LinkedList<String>();
+            
+            Vector v = new Vector();
+            
+            v.add(null);
+            v.add(null);
+            
+            dictionary.add(v);
+        }
+        
+        return dictionary;
     }
 
     public void linearProbing(){

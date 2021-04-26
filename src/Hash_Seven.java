@@ -1,15 +1,15 @@
 import java.util.*;
 import java.io.*;
 
-public class Hash_Three {
+public class Hash_Seven {
     int lookUp = 0;
     int mispelled = 0;
 
     ArrayList<String> arr = new ArrayList<String>();
     ArrayList<String> file = new ArrayList<String>();
-    ArrayList<LinkedList<String>> dictionary;
+    ArrayList<String> dictionary;
 
-    public Hash_Three() {
+    public Hash_Seven() {
         Scanner console = new Scanner(System.in);
         System.out.print("Enter a dictionary: ");
         String filename = console.next().toLowerCase();
@@ -35,7 +35,7 @@ public class Hash_Three {
                 if (input2 != null) { 
                     arr = helper.processDictWords(input,arr);
                     file = helper.processText(input2,file);
-                    dictionary = collisions.separateChaining(dictionary, helper);
+                    dictionary = new ArrayList<String>(helper.getNumDict());
 
                     String word;
                     long hcode = 0;
@@ -44,7 +44,23 @@ public class Hash_Three {
                         word = arr.get(i);
                         hcode = code.cyclicShiftHashWord(helper, word);
                         index = function.goldenRatioHashFunc(helper, hcode);
-                        dictionary.get(index).add(word);
+                        
+                        if(dictionary.get(index) == null)
+                        	dictionary.set(index, word);
+                        else {
+                        	
+                        	int count = 1;
+                        	
+                        	while(dictionary.get(index) != null) {
+                        		index = (function.goldenRatioHashFunc(helper, hcode) + count) % dictionary.size();
+                        		if(index > dictionary.size()) {
+                        			dictionary = extendDict(dictionary);
+                        		}
+                        		
+                        		dictionary.set(index, word);
+                        	}
+                        }
+                        
                     }
 
                     for(int i = 0; i < file.size(); i++){
@@ -62,8 +78,21 @@ public class Hash_Three {
         input.close();
     }
     public static void main(String[] args) {
-        new Hash_Three();
+        new Hash_Seven();
     }
+    
+    public ArrayList<String> extendDict(ArrayList<String> dict) {
+    	
+    	ArrayList<String> re = new ArrayList<>(dict.size() * 2);
+    	
+    	for(int i = 0; i < dict.size(); i++) {
+    		re.set(i, dict.get(i));
+    	}
+    	
+    	return re;
+    	
+    }
+    
 
     public void spellCheck(Utils helper, HashCodes code, HashFunctions func, ArrayList<LinkedList<String>> dictionary, String word)
     {

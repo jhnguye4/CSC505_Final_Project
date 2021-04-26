@@ -10,22 +10,22 @@ public class HashCollisions {
         return dictionary;
     }
 
-    public ArrayList<Vector> coalescedChaining(ArrayList<Vector> dictionary, Utils helper){
-        dictionary = new ArrayList<Vector>(helper.getNumDict());
+    // public ArrayList<Vector> coalescedChaining(ArrayList<Vector> dictionary, Utils helper){
+    //     dictionary = new ArrayList<Vector>(helper.getNumDict());
         
-        for(int i = 0; i < dictionary.size(); i++){
-            LinkedList<String> list = new LinkedList<String>();
+    //     for(int i = 0; i < dictionary.size(); i++){
+    //         LinkedList<String> list = new LinkedList<String>();
             
-            Vector v = new Vector();
+    //         Vector v = new Vector();
             
-            v.add(null);
-            v.add(null);
+    //         v.add(null);
+    //         v.add(null);
             
-            dictionary.add(v);
-        }
+    //         dictionary.add(v);
+    //     }
         
-        return dictionary;
-    }
+    //     return dictionary;
+    // }
 
     public void linearProbing(){
         //TODO

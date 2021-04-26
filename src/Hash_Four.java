@@ -7,7 +7,12 @@ public class Hash_Four {
 
     ArrayList<String> arr = new ArrayList<String>();
     ArrayList<String> file = new ArrayList<String>();
-    ArrayList<Vector> dictionary;
+    ArrayList<LinkedList<String>> dictionary;
+    Utils helper = new Utils();
+    HashCodes code = new HashCodes();
+    HashFunctions function = new HashFunctions();
+    HashCollisions collisions = new HashCollisions();
+    
 
     public Hash_Four() {
         Scanner console = new Scanner(System.in);
@@ -22,10 +27,7 @@ public class Hash_Four {
         Scanner input = null;
         Scanner input2 = null;
         PrintStream output = null;
-        Utils helper = new Utils();
-        HashCodes code = new HashCodes();
-        HashFunctions function = new HashFunctions();
-        HashCollisions collisions = new HashCollisions();
+        
 
         if (filename.endsWith(".txt")) 
         {
@@ -35,33 +37,34 @@ public class Hash_Four {
                 if (input2 != null) { 
                     arr = helper.processDictWords(input,arr);
                     file = helper.processText(input2,file);
-                    dictionary = collisions.coalescedChaining(dictionary, helper);
+                    dictionary = collisions.separateChaining(dictionary, helper);
 
                     String word;
                     long hcode = 0;
                     int index = 0;
+
+                    long start = System.nanoTime();
+
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
                         hcode = code.polynomialHashWord(helper, word);
                         index = function.goldenRatioHashFunc(helper, hcode);
-                        
-                        if(dictionary.get(index).get(0) == null)
-                        	dictionary.get(index).set(0, word);
-                        else {
-                        	int next_index = findLastEmpty(dictionary);
-                        	updatePointer(dictionary,index,next_index);
-                        	dictionary.get(next_index).set(0, word);
-                        }
-                        
+                        dictionary.get(index).add(word);
                     }
 
                     for(int i = 0; i < file.size(); i++){
-                        spellCheck(helper, code, function, dictionary, file.get(i));
+                        spellCheck(helper, function, file.get(i));
                     }
+                    long end = System.nanoTime();
+                    //Calculating the runtime of this algorithm and the number of comparisons it would take.
+                    long sortTimeInNano = end - start;
+                    double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
+
                     System.out.println("(3) The number of misspelled words in the text: " + mispelled);
                     System.out.println("(4) The total number of probes during the checking phase: " + helper.getTotalProbe());
                     System.out.println("(5) The average number of probes per word checked: " + (double)helper.getTotalProbe()/helper.getNumText());
-                    System.out.println("(6) The average number of probes per lookup operation " + (double)lookUp/helper.getNumText());
+                    System.out.println("(6) Load Factor " + helper.countFilledSeparateChaining(dictionary));
+                    System.out.println("(7) Run Time " + sortTimeIn10thSeconds);
                 }
             }
         } else {
@@ -70,33 +73,33 @@ public class Hash_Four {
         input.close();
     }
     
-    public int findLastEmpty(ArrayList<Vector> dict) {
+    // public int findLastEmpty(ArrayList<Vector> dict) {
     	
-    	for(int i = dict.size(); i > 0; i--) {
-    		if(dict.get(i).get(0) == null)
-    			return i;
-    	}
+    // 	for(int i = dict.size(); i > 0; i--) {
+    // 		if(dict.get(i).get(0) == null)
+    // 			return i;
+    // 	}
     	
-    	return -1;
+    // 	return -1;
     	
-    }
+    // }
     
-    public ArrayList<Vector> updatePointer(ArrayList<Vector> dict, int ind, int next){
+    // public ArrayList<Vector> updatePointer(ArrayList<Vector> dict, int ind, int next){
     	
-    	while(dict.get(ind).get(1) != null) {
-    		ind = (int)dict.get(ind).get(1);
-    	}
+    // 	while(dict.get(ind).get(1) != null) {
+    // 		ind = (int)dict.get(ind).get(1);
+    // 	}
     	
-    	dict.get(ind).set(1, next);
+    // 	dict.get(ind).set(1, next);
     	
-    	return dict;
-    }
+    // 	return dict;
+    // }
     
     public static void main(String[] args) {
         new Hash_Four();
     }
 
-    public void spellCheck(Utils helper, HashCodes code, HashFunctions func, ArrayList<LinkedList<String>> dictionary, String word)
+    public void spellCheck(Utils helper, HashFunctions func, String word)
     {
         String noChar = word.replaceAll("[^a-zA-Z0-9']", "");
         String temp;

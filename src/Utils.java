@@ -138,16 +138,30 @@ public class Utils{
     	return count/dict.size();
     	
     }
-    
-    public double countFilledVect(ArrayList<Vector> dict) {
+
+    public double countFilledSeparateChaining(ArrayList<LinkedList<String>> dict) {
     	
     	int count = 0;
     	
-    	for(Vector v : dict) {
-    		if(v.get(0) != null)
-    			count++;
+    	for(int i = 0; i < dict.size(); i++) {
+    		if(dict.get(i).size() > 0){
+                count++;
+            }
     	}
     	
-    	return count/dict.size();
+    	return (double)count/dict.size();
+    	
     }
+    
+    // public double countFilledVect(ArrayList<Vector> dict) {
+    	
+    // 	int count = 0;
+    	
+    // 	for(Vector v : dict) {
+    // 		if(v.get(0) != null)
+    // 			count++;
+    // 	}
+    	
+    // 	return count/dict.size();
+    // }
 }

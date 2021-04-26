@@ -24,7 +24,7 @@ public class HashCodes {
         return code;
     }
 
-    public long cyclicShiftHashWord(Utils helper, String word){
+    public long cyclicShiftHashWord(String word){
         int shift = 5;
 		int code = 0;
 		for(int i=0; i<word.length(); i++) { 

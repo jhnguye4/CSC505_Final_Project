@@ -47,7 +47,7 @@ public class Hash_Four {
 
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
-                        hcode = code.cyclicShiftHashWord(helper, word);
+                        hcode = code.cyclicShiftHashWord(word);
                         index = function.multiplyAddDivideHashFunc(helper, hcode);
                         dictionary.get(index).add(word);
                     }
@@ -103,7 +103,7 @@ public class Hash_Four {
     {
         String noChar = word.replaceAll("[^a-zA-Z0-9']", "");
         String temp;
-        long hcode = code.cyclicShiftHashWord(helper, noChar);
+        long hcode = code.cyclicShiftHashWord(noChar);
         int index = func.multiplyAddDivideHashFunc(helper, hcode);
         boolean found;
         found = helper.findWord(dictionary, index, noChar);
@@ -112,7 +112,7 @@ public class Hash_Four {
             if(Character.isUpperCase(word.charAt(0))){
                 lookUp++;
                 temp = noChar.toLowerCase();
-                hcode = code.cyclicShiftHashWord(helper, temp);
+                hcode = code.cyclicShiftHashWord(temp);
                 index = func.multiplyAddDivideHashFunc(helper, hcode);
                 found = helper.findWord(dictionary, index, temp);
             }
@@ -120,7 +120,7 @@ public class Hash_Four {
                 if(word.endsWith("'s")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.cyclicShiftHashWord(temp);
                     index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }
@@ -128,13 +128,13 @@ public class Hash_Four {
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.cyclicShiftHashWord(temp);
                         index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                         if(!found && word.endsWith("es")){
                             lookUp++;
                             temp = noChar.substring(0, noChar.length() - 2);
-                            hcode = code.cyclicShiftHashWord(helper, temp);
+                            hcode = code.cyclicShiftHashWord(temp);
                             index = func.multiplyAddDivideHashFunc(helper, hcode);
                             found = helper.findWord(dictionary, index, temp);
                         }
@@ -143,13 +143,13 @@ public class Hash_Four {
                 if(word.endsWith("ed")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.cyclicShiftHashWord(temp);
                     index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);;
                     if(!found && word.endsWith("d")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.cyclicShiftHashWord(temp);
                         index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
@@ -157,13 +157,13 @@ public class Hash_Four {
                 if(word.endsWith("er")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.cyclicShiftHashWord(temp);
                     index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found && word.endsWith("r")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.cyclicShiftHashWord(temp);
                         index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
@@ -171,14 +171,14 @@ public class Hash_Four {
                 if(word.endsWith("ing")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 3);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.cyclicShiftHashWord(temp);
                     index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 3);
                         temp = temp + "e";
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.cyclicShiftHashWord(temp);
                         index = func.multiplyAddDivideHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
@@ -186,7 +186,7 @@ public class Hash_Four {
                 if(word.endsWith("ly")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.cyclicShiftHashWord(temp);
                     index = func.multiplyAddDivideHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }

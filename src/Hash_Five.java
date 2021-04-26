@@ -1,15 +1,15 @@
 import java.util.*;
 import java.io.*;
 
-public class Hash_Three {
+public class Hash_Five {
     int lookUp = 0;
     int mispelled = 0;
 
     ArrayList<String> arr = new ArrayList<String>();
     ArrayList<String> file = new ArrayList<String>();
-    ArrayList<LinkedList<String>> dictionary;
+    ArrayList<Vector> dictionary;
 
-    public Hash_Three() {
+    public Hash_Five() {
         Scanner console = new Scanner(System.in);
         System.out.print("Enter a dictionary: ");
         String filename = console.next().toLowerCase();
@@ -35,7 +35,7 @@ public class Hash_Three {
                 if (input2 != null) { 
                     arr = helper.processDictWords(input,arr);
                     file = helper.processText(input2,file);
-                    dictionary = collisions.separateChaining(dictionary, helper);
+                    dictionary = collisions.coalescedChaining(dictionary, helper);
 
                     String word;
                     long hcode = 0;
@@ -44,7 +44,15 @@ public class Hash_Three {
                         word = arr.get(i);
                         hcode = code.cyclicShiftHashWord(helper, word);
                         index = function.goldenRatioHashFunc(helper, hcode);
-                        dictionary.get(index).add(word);
+                        
+                        if(dictionary.get(index).get(0) == null)
+                        	dictionary.get(index).set(0, word);
+                        else {
+                        	int next_index = findLastEmpty(dictionary);
+                        	updatePointer(dictionary,index,next_index);
+                        	dictionary.get(next_index).set(0, word);
+                        }
+                        
                     }
 
                     for(int i = 0; i < file.size(); i++){
@@ -62,7 +70,29 @@ public class Hash_Three {
         input.close();
     }
     public static void main(String[] args) {
-        new Hash_Three();
+        new Hash_Five();
+    }
+    
+    public int findLastEmpty(ArrayList<Vector> dict) {
+    	
+    	for(int i = dict.size(); i > 0; i--) {
+    		if(dict.get(i).get(0) == null)
+    			return i;
+    	}
+    	
+    	return -1;
+    	
+    }
+    
+    public ArrayList<Vector> updatePointer(ArrayList<Vector> dict, int ind, int next){
+    	
+    	while(dict.get(ind).get(1) != null) {
+    		ind = (int)dict.get(ind).get(1);
+    	}
+    	
+    	dict.get(ind).set(1, next);
+    	
+    	return dict;
     }
 
     public void spellCheck(Utils helper, HashCodes code, HashFunctions func, ArrayList<LinkedList<String>> dictionary, String word)

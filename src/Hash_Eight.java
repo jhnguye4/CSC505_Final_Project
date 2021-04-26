@@ -1,15 +1,15 @@
 import java.util.*;
 import java.io.*;
 
-public class Hash_Three {
+public class Hash_Eight {
     int lookUp = 0;
     int mispelled = 0;
 
     ArrayList<String> arr = new ArrayList<String>();
     ArrayList<String> file = new ArrayList<String>();
-    ArrayList<LinkedList<String>> dictionary;
+    ArrayList<String> dictionary;
 
-    public Hash_Three() {
+    public Hash_Eight() {
         Scanner console = new Scanner(System.in);
         System.out.print("Enter a dictionary: ");
         String filename = console.next().toLowerCase();
@@ -35,16 +35,32 @@ public class Hash_Three {
                 if (input2 != null) { 
                     arr = helper.processDictWords(input,arr);
                     file = helper.processText(input2,file);
-                    dictionary = collisions.separateChaining(dictionary, helper);
+                    dictionary = new ArrayList<String>(helper.getNumDict());
 
                     String word;
                     long hcode = 0;
                     int index = 0;
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
-                        hcode = code.cyclicShiftHashWord(helper, word);
+                        hcode = code.polynomialHashWord(helper, word);
                         index = function.goldenRatioHashFunc(helper, hcode);
-                        dictionary.get(index).add(word);
+                        
+                        if(dictionary.get(index) == null)
+                        	dictionary.set(index, word);
+                        else {
+                        	
+                        	int count = 1;
+                        	
+                        	while(dictionary.get(index) != null) {
+                        		index = (function.goldenRatioHashFunc(helper, hcode) + count) % dictionary.size();
+                        		if(index > dictionary.size()) {
+                        			dictionary = extendDict(dictionary);
+                        		}
+                        		
+                        		dictionary.set(index, word);
+                        	}
+                        }
+                        
                     }
 
                     for(int i = 0; i < file.size(); i++){
@@ -61,15 +77,28 @@ public class Hash_Three {
         }
         input.close();
     }
+    
+    public ArrayList<String> extendDict(ArrayList<String> dict) {
+    	
+    	ArrayList<String> re = new ArrayList<>(dict.size() * 2);
+    	
+    	for(int i = 0; i < dict.size(); i++) {
+    		re.set(i, dict.get(i));
+    	}
+    	
+    	return re;
+    	
+    }
+    
     public static void main(String[] args) {
-        new Hash_Three();
+        new Hash_Eight();
     }
 
     public void spellCheck(Utils helper, HashCodes code, HashFunctions func, ArrayList<LinkedList<String>> dictionary, String word)
     {
         String noChar = word.replaceAll("[^a-zA-Z0-9']", "");
         String temp;
-        long hcode = code.cyclicShiftHashWord(helper, noChar);
+        long hcode = code.polynomialHashWord(helper, noChar);
         int index = func.goldenRatioHashFunc(helper, hcode);
         boolean found;
         found = helper.findWord(dictionary, index, noChar);
@@ -78,7 +107,7 @@ public class Hash_Three {
             if(Character.isUpperCase(word.charAt(0))){
                 lookUp++;
                 temp = noChar.toLowerCase();
-                hcode = code.cyclicShiftHashWord(helper, temp);
+                hcode = code.polynomialHashWord(helper, temp);
                 index = func.goldenRatioHashFunc(helper, hcode);
                 found = helper.findWord(dictionary, index, temp);
             }
@@ -86,7 +115,7 @@ public class Hash_Three {
                 if(word.endsWith("'s")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
                     index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }
@@ -94,13 +123,13 @@ public class Hash_Three {
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
                         index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                         if(!found && word.endsWith("es")){
                             lookUp++;
                             temp = noChar.substring(0, noChar.length() - 2);
-                            hcode = code.cyclicShiftHashWord(helper, temp);
+                            hcode = code.polynomialHashWord(helper, temp);
                             index = func.goldenRatioHashFunc(helper, hcode);
                             found = helper.findWord(dictionary, index, temp);
                         }
@@ -109,13 +138,13 @@ public class Hash_Three {
                 if(word.endsWith("ed")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
                     index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);;
                     if(!found && word.endsWith("d")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
                         index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
@@ -123,13 +152,13 @@ public class Hash_Three {
                 if(word.endsWith("er")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
                     index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found && word.endsWith("r")){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
                         index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
@@ -137,14 +166,14 @@ public class Hash_Three {
                 if(word.endsWith("ing")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 3);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
                     index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                     if(!found){
                         lookUp++;
                         temp = noChar.substring(0, noChar.length() - 3);
                         temp = temp + "e";
-                        hcode = code.cyclicShiftHashWord(helper, temp);
+                        hcode = code.polynomialHashWord(helper, temp);
                         index = func.goldenRatioHashFunc(helper, hcode);
                         found = helper.findWord(dictionary, index, temp);
                     }
@@ -152,7 +181,7 @@ public class Hash_Three {
                 if(word.endsWith("ly")){
                     lookUp++;
                     temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.cyclicShiftHashWord(helper, temp);
+                    hcode = code.polynomialHashWord(helper, temp);
                     index = func.goldenRatioHashFunc(helper, hcode);
                     found = helper.findWord(dictionary, index, temp);
                 }

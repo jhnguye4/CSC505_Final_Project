@@ -125,4 +125,29 @@ public class Utils{
     public int getTotalProbe(){
         return totalProbe;
     }
+    
+    public double countFilled(ArrayList<String> dict) {
+    	
+    	int count = 0;
+    	
+    	for(Object o : dict) {
+    		if(o != null)
+    			count++;
+    	}
+    	
+    	return count/dict.size();
+    	
+    }
+    
+    public double countFilledVect(ArrayList<Vector> dict) {
+    	
+    	int count = 0;
+    	
+    	for(Vector v : dict) {
+    		if(v.get(0) != null)
+    			count++;
+    	}
+    	
+    	return count/dict.size();
+    }
 }

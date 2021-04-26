@@ -44,6 +44,11 @@ public class Hash_Three {
                         word = arr.get(i);
                         hcode = code.cyclicShiftHashWord(helper, word);
                         index = function.goldenRatioHashFunc(helper, hcode);
+                        if(hcode < 0){
+                            System.out.println("Index: "+ index);
+                            System.out.println("Word: "+ word);
+                            System.out.println("Hash Code: "+ hcode);
+                        }
                         dictionary.get(index).add(word);
                     }
 

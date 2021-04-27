@@ -8,7 +8,7 @@ public class Hash_One {
     ArrayList<String> arr = new ArrayList<String>();
     ArrayList<String> file = new ArrayList<String>();
     ArrayList<LinkedList<String>> dictionary;
-    ArrayList<Vector> dictionary2;
+    ArrayList<Vector<Object>> dictionary2;
     Utils helper = new Utils();
     HashCodes code = new HashCodes();
     HashFunctions function = new HashFunctions();
@@ -57,7 +57,7 @@ public class Hash_One {
                         dictionary = collisions.separateChaining(dictionary, helper);
                     }
                     else if(collision.equals("coalesced")){
-                        // dictionary2 = collisions.coalescedChaining(dictionary, helper);
+                        dictionary2 = collisions.coalescedChaining(dictionary2, helper);
                     }
                     else if(collision.equals("linear")){
                         collisions.linearProbing();
@@ -90,7 +90,23 @@ public class Hash_One {
                         else if(func.equals("division")){
                             index = function.divisionHashFunc(helper, hcode);
                         }
-                        dictionary.get(index).add(word);
+                        
+                        if(collision.equals("separate")){
+                        	dictionary.get(index).add(word);
+                        }
+                        else if(collision.equals("coalesced")){
+                            if(dictionary2.get(index).get(0) == null)
+                            	dictionary2.get(index).set(0, word);
+                            else {
+                            	int next_index = findLastEmpty(dictionary2);
+                            	updatePointer(dictionary2,index,next_index);
+                            	dictionary2.get(next_index).set(0, word);
+                            }
+                        }
+                        else if(collision.equals("linear")){
+
+                        }
+                        
                     }
 
                     for(int i = 0; i < file.size(); i++){
@@ -105,7 +121,18 @@ public class Hash_One {
                     System.out.println("(3) The number of misspelled words in the text: " + mispelled);
                     System.out.println("(4) The total number of probes during the checking phase: " + helper.getTotalProbe());
                     System.out.println("(5) The average number of probes per word checked: " + (double)helper.getTotalProbe()/helper.getNumText());
-                    System.out.println("(6) Load Factor " + helper.countFilledSeparateChaining(dictionary));
+                    
+                    if(collision.equals("separate")){
+                    	System.out.println("(6) Load Factor " + helper.countFilledSeparateChaining(dictionary));
+                    }
+                    else if(collision.equals("coalesced")){
+                    	System.out.println("(6) Load Factor " + helper.countFilledVect(dictionary2));
+                    }
+                    else if(collision.equals("linear")){
+                        //
+                    }
+                    
+                    
                     System.out.println("(7) Run Time " + sortTimeIn10thSeconds);
                 }
             }
@@ -122,7 +149,7 @@ public class Hash_One {
     {
         long hcode = 0;
         int index = 0;
-        boolean found;
+        boolean found = false;
         if(codeType.equals("polynomial")){
             hcode = code.polynomialHashWord(word);
         }
@@ -143,11 +170,45 @@ public class Hash_One {
             index = function.divisionHashFunc(helper, hcode);
         }
         
-        found = helper.findWord(dictionary, index, word);
+        if(collision.equals("separate")){
+        	found = helper.findWord(dictionary, index, word);
+        }
+        else if(collision.equals("coalesced")){
+        	found = helper.findWordCoalesced(dictionary2, index, word);
+        }
+        else if(collision.equals("linear")){
+            //
+        }
+        
+        
+        
         lookUp++;
 
         if(!found){
             mispelled++;
         }
+    }
+    
+    
+    public int findLastEmpty(ArrayList<Vector<Object>> dict) {
+    	
+    	for(int i = dict.size() - 1; i > 0; i--) {
+    		if(dict.get(i).get(0) == null)
+    			return i;
+    	}
+    	
+    	return -1;
+    	
+    }
+    
+    public ArrayList<Vector<Object>> updatePointer(ArrayList<Vector<Object>> dict, int ind, int next){
+    	
+    	while(dict.get(ind).get(1) != null) {
+    		ind = (int)dict.get(ind).get(1);
+    	}
+    	
+    	dict.get(ind).set(1, next);
+    	
+    	return dict;
     }
 }

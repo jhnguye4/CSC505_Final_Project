@@ -91,64 +91,63 @@ public class Utils {
 
 	public ArrayList<String> processText(Scanner input, ArrayList<String> file) {
 		text = 0;
-        String noChar = "";
-        String temp = "";
-        String word = "";
+		String noChar = "";
+		String temp = "";
+		String word = "";
 		while (input.hasNext()) {
 			word = input.next();
-            noChar = word.replaceAll("[^a-zA-Z0-9']", "");
-            if(Character.isUpperCase(word.charAt(0))){
-                noChar = noChar.toLowerCase();
-            }
-            temp = noChar;
+			noChar = word.replaceAll("[^a-zA-Z0-9']", "");
+			if (Character.isUpperCase(word.charAt(0))) {
+				noChar = noChar.toLowerCase();
+			}
+			temp = noChar;
 
-            if(word.endsWith("'s")){
-                temp = noChar.substring(0, noChar.length() - 2);
-            }
-            if(word.endsWith("es")){
-                temp = noChar.substring(0, noChar.length() - 2);
-                file.add(temp);
-                text += 1;
-                if(word.endsWith("s")){
-                    temp = noChar.substring(0, noChar.length() - 1);
-                }
-            }
-            if(word.endsWith("ed")){
-                temp = noChar.substring(0, noChar.length() - 2);
-                file.add(temp);
-                text += 1;
-                if(word.endsWith("d")){
-                    temp = noChar.substring(0, noChar.length() - 1);
-                }
-            }
-            if(word.endsWith("er")){
-                temp = noChar.substring(0, noChar.length() - 2);
-                if(word.endsWith("r")){
-                    temp = noChar.substring(0, noChar.length() - 1);
-                }
-            }
-            if(word.endsWith("ing")){
-                temp = noChar.substring(0, noChar.length() - 3);
-                file.add(temp);
-                text += 1;
-                if(word.endsWith("ing")){
-                    temp = temp + "e";
-                }
-                
-            }
-            if(word.endsWith("ly")){
-                temp = noChar.substring(0, noChar.length() - 2);
-            }
-            if(word.endsWith("ies")){
-                temp = noChar.substring(0, noChar.length() - 3);
-                temp = temp + "y";
-            }
-            
-            
-            file.add(temp);
+			if (word.endsWith("'s")) {
+				temp = noChar.substring(0, noChar.length() - 2);
+			}
+			if (word.endsWith("es")) {
+				temp = noChar.substring(0, noChar.length() - 2);
+				file.add(temp);
+				text += 1;
+				if (word.endsWith("s")) {
+					temp = noChar.substring(0, noChar.length() - 1);
+				}
+			}
+			if (word.endsWith("ed")) {
+				temp = noChar.substring(0, noChar.length() - 2);
+				file.add(temp);
+				text += 1;
+				if (word.endsWith("d")) {
+					temp = noChar.substring(0, noChar.length() - 1);
+				}
+			}
+			if (word.endsWith("er")) {
+				temp = noChar.substring(0, noChar.length() - 2);
+				if (word.endsWith("r")) {
+					temp = noChar.substring(0, noChar.length() - 1);
+				}
+			}
+			if (word.endsWith("ing")) {
+				temp = noChar.substring(0, noChar.length() - 3);
+				file.add(temp);
+				text += 1;
+				if (word.endsWith("ing")) {
+					temp = temp + "e";
+				}
+
+			}
+			if (word.endsWith("ly")) {
+				temp = noChar.substring(0, noChar.length() - 2);
+			}
+			if (word.endsWith("ies")) {
+				temp = noChar.substring(0, noChar.length() - 3);
+				temp = temp + "y";
+			}
+
+			file.add(temp);
 			text += 1;
-        }
-			
+		}
+
 		System.out.println("(2) The number of words in the text to be spell-checked: " + text);
 		return file;
 	}
@@ -164,6 +163,26 @@ public class Utils {
 			}
 			totalProbe++;
 		}
+		return found;
+	}
+
+	public boolean findWordCoalesced(ArrayList<Vector<Object>> dictionary, int index, String word) {
+		boolean found = false;
+		Vector<Object> current = dictionary.get(index);
+		
+		while (!found && current.get(0) != null) {
+			totalProbe++;
+			if (current.get(0).equals(word))
+				found = true;
+
+			if (current.get(1) != null)
+				index = (int) current.get(1);
+			else
+				break;
+			
+			current = dictionary.get(index);
+		}
+
 		return found;
 	}
 
@@ -206,85 +225,83 @@ public class Utils {
 
 	}
 
-	// public double countFilledVect(ArrayList<Vector> dict) {
+	public double countFilledVect(ArrayList<Vector<Object>> dict) {
 
-	// int count = 0;
+		int count = 0;
 
-	// for(Vector v : dict) {
-	// if(v.get(0) != null)
-	// count++;
-	// }
+		for (Vector<Object> v : dict) {
+			if (v.get(0) != null)
+				count++;
+		}
 
-	// return count/dict.size();
-	// }
+		return (double) count / dict.size();
+	}
 
 	// public ArrayList<Long> generateHCode(ArrayList<String> words) {
 
-		
-	// 	HashCodes code = new HashCodes();
-	// 	ArrayList<Long> hcodes = new ArrayList<>();
+	// HashCodes code = new HashCodes();
+	// ArrayList<Long> hcodes = new ArrayList<>();
 
-	// 	for (String s : words) {
-	// 		String noChar = s.replaceAll("[^a-zA-Z0-9']", "");
-	// 		String temp;
-	// 		long hcode = code.cyclicShiftHashWord(noChar);
-	// 		boolean found;
-	// 		if (Character.isUpperCase(s.charAt(0))) {
-	// 			temp = noChar.toLowerCase();
-	// 			hcode = code.cyclicShiftHashWord(temp);
-	// 		}
-	// 		if (!found) {
-	// 			if (s.endsWith("'s")) {
-	// 				temp = noChar.substring(0, noChar.length() - 2);
-	// 				hcode = code.cyclicShiftHashWord(temp);
-	// 			}
-	// 			if (s.endsWith("s")) {
-	// 				if (!found) {
-	// 					temp = noChar.substring(0, noChar.length() - 1);
-	// 					hcode = code.cyclicShiftHashWord(temp);
-	// 					if (!found && s.endsWith("es")) {
-	// 						temp = noChar.substring(0, noChar.length() - 2);
-	// 						hcode = code.cyclicShiftHashWord(temp);
-	// 					}
-	// 				}
-	// 			}
-	// 			if (s.endsWith("ed")) {
-	// 				temp = noChar.substring(0, noChar.length() - 2);
-	// 				hcode = code.cyclicShiftHashWord(temp);
-	// 				if (!found && s.endsWith("d")) {
-	// 					temp = noChar.substring(0, noChar.length() - 1);
-	// 					hcode = code.cyclicShiftHashWord(temp);
-	// 				}
-	// 			}
-	// 			if (s.endsWith("er")) {
-	// 				temp = noChar.substring(0, noChar.length() - 2);
-	// 				hcode = code.cyclicShiftHashWord(temp);
-	// 				if (!found && s.endsWith("r")) {
-	// 					temp = noChar.substring(0, noChar.length() - 1);
-	// 					hcode = code.cyclicShiftHashWord(temp);
-	// 				}
-	// 			}
-	// 			if (s.endsWith("ing")) {
-	// 				temp = noChar.substring(0, noChar.length() - 3);
-	// 				hcode = code.cyclicShiftHashWord(temp);
-	// 				if (!found) {
-	// 					temp = noChar.substring(0, noChar.length() - 3);
-	// 					temp = temp + "e";
-	// 					hcode = code.cyclicShiftHashWord(temp);
-	// 				}
-	// 			}
-	// 			if (s.endsWith("ly")) {
-	// 				temp = noChar.substring(0, noChar.length() - 2);
-	// 				hcode = code.cyclicShiftHashWord(temp);
-	// 			}
-	// 		}
-			
-	// 		hcodes.add(hcode);
-			
-	// 	}
-		
-		
-	// 	return hcodes;
+	// for (String s : words) {
+	// String noChar = s.replaceAll("[^a-zA-Z0-9']", "");
+	// String temp;
+	// long hcode = code.cyclicShiftHashWord(noChar);
+	// boolean found;
+	// if (Character.isUpperCase(s.charAt(0))) {
+	// temp = noChar.toLowerCase();
+	// hcode = code.cyclicShiftHashWord(temp);
+	// }
+	// if (!found) {
+	// if (s.endsWith("'s")) {
+	// temp = noChar.substring(0, noChar.length() - 2);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// }
+	// if (s.endsWith("s")) {
+	// if (!found) {
+	// temp = noChar.substring(0, noChar.length() - 1);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// if (!found && s.endsWith("es")) {
+	// temp = noChar.substring(0, noChar.length() - 2);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// }
+	// }
+	// }
+	// if (s.endsWith("ed")) {
+	// temp = noChar.substring(0, noChar.length() - 2);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// if (!found && s.endsWith("d")) {
+	// temp = noChar.substring(0, noChar.length() - 1);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// }
+	// }
+	// if (s.endsWith("er")) {
+	// temp = noChar.substring(0, noChar.length() - 2);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// if (!found && s.endsWith("r")) {
+	// temp = noChar.substring(0, noChar.length() - 1);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// }
+	// }
+	// if (s.endsWith("ing")) {
+	// temp = noChar.substring(0, noChar.length() - 3);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// if (!found) {
+	// temp = noChar.substring(0, noChar.length() - 3);
+	// temp = temp + "e";
+	// hcode = code.cyclicShiftHashWord(temp);
+	// }
+	// }
+	// if (s.endsWith("ly")) {
+	// temp = noChar.substring(0, noChar.length() - 2);
+	// hcode = code.cyclicShiftHashWord(temp);
+	// }
+	// }
+
+	// hcodes.add(hcode);
+
+	// }
+
+	// return hcodes;
 
 	// }
 

@@ -39,6 +39,8 @@ public class Hash_One {
         System.out.print("Enter a collision method(separate, coalesced, linear): ");
         collision = console5.next().toLowerCase();
 
+        System.out.println();
+
 
         Scanner input = null;
         Scanner input2 = null;

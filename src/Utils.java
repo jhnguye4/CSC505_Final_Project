@@ -102,29 +102,48 @@ public class Utils {
             }
             temp = noChar;
 
-            if(temp.endsWith("'s")){
+            if(word.endsWith("'s")){
                 temp = noChar.substring(0, noChar.length() - 2);
             }
-            else if(temp.endsWith("es")){
-                temp = noChar.substring(0, noChar.length() - 1);
+            if(word.endsWith("es")){
+                temp = noChar.substring(0, noChar.length() - 2);
+                file.add(temp);
+                text += 1;
+                if(word.endsWith("s")){
+                    temp = noChar.substring(0, noChar.length() - 1);
+                }
             }
-            else if(temp.endsWith("ed")){
-                temp = noChar.substring(0, noChar.length() - 1);
+            if(word.endsWith("ed")){
+                temp = noChar.substring(0, noChar.length() - 2);
+                file.add(temp);
+                text += 1;
+                if(word.endsWith("d")){
+                    temp = noChar.substring(0, noChar.length() - 1);
+                }
             }
-            else if(temp.endsWith("er")){
-                temp = noChar.substring(0, noChar.length() - 1);
+            if(word.endsWith("er")){
+                temp = noChar.substring(0, noChar.length() - 2);
+                if(word.endsWith("r")){
+                    temp = noChar.substring(0, noChar.length() - 1);
+                }
             }
-            else if(temp.endsWith("ing")){
+            if(word.endsWith("ing")){
                 temp = noChar.substring(0, noChar.length() - 3);
-                temp = temp + "e";
+                file.add(temp);
+                text += 1;
+                if(word.endsWith("ing")){
+                    temp = temp + "e";
+                }
+                
             }
-            else if(temp.endsWith("ly")){
+            if(word.endsWith("ly")){
                 temp = noChar.substring(0, noChar.length() - 2);
             }
-            else if(temp.endsWith("ies")){
+            if(word.endsWith("ies")){
                 temp = noChar.substring(0, noChar.length() - 3);
                 temp = temp + "y";
             }
+            
             
             file.add(temp);
 			text += 1;

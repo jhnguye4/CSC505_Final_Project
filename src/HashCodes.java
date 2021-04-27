@@ -1,7 +1,7 @@
 import java.util.*;
 public class HashCodes {
 
-    public long polynomialHashWord(Utils helper,String word){
+    public long polynomialHashWord(String word){
         long ascii;
         long code = 0;
 
@@ -12,7 +12,7 @@ public class HashCodes {
         return code;
     }
     
-    public long additiveHashWord(Utils helper, String word){
+    public long additiveHashWord(String word){
         int ascii;
         long code = 0;
 

@@ -8,6 +8,15 @@ public class Hash_One {
     ArrayList<String> arr = new ArrayList<String>();
     ArrayList<String> file = new ArrayList<String>();
     ArrayList<LinkedList<String>> dictionary;
+    ArrayList<Vector> dictionary2;
+    Utils helper = new Utils();
+    HashCodes code = new HashCodes();
+    HashFunctions function = new HashFunctions();
+    HashCollisions collisions = new HashCollisions();
+
+    String codeType = "";
+    String func = "";
+    String collision = "";
 
     public Hash_One() {
         Scanner console = new Scanner(System.in);
@@ -18,14 +27,21 @@ public class Hash_One {
         System.out.print("Enter a Text File: ");
         String filename2 = console2.next().toLowerCase();
 
+        Scanner console3 = new Scanner(System.in);
+        System.out.print("Enter a hash code(polynomial, additive, cyclic): ");
+        codeType  = console3.next().toLowerCase();
+
+        Scanner console4 = new Scanner(System.in);
+        System.out.print("Enter a compression function(multiplication, MAD, division): ");
+        func = console4.next().toLowerCase();
+
+        Scanner console5 = new Scanner(System.in);
+        System.out.print("Enter a collision method(separate, coalesced, linear): ");
+        collision = console5.next().toLowerCase();
+
 
         Scanner input = null;
         Scanner input2 = null;
-        PrintStream output = null;
-        Utils helper = new Utils();
-        HashCodes code = new HashCodes();
-        HashFunctions function = new HashFunctions();
-        HashCollisions collisions = new HashCollisions();
 
         if (filename.endsWith(".txt")) 
         {
@@ -35,7 +51,16 @@ public class Hash_One {
                 if (input2 != null) { 
                     arr = helper.processDictWords(input,arr);
                     file = helper.processText(input2,file);
-                    dictionary = collisions.separateChaining(dictionary, helper);
+                    if(collision.equals("separate")){
+                        dictionary = collisions.separateChaining(dictionary, helper);
+                    }
+                    else if(collision.equals("coalesced")){
+                        // dictionary2 = collisions.coalescedChaining(dictionary, helper);
+                    }
+                    else if(collision.equals("linear")){
+                        collisions.linearProbing();
+                    }
+                    
 
                     String word;
                     long hcode = 0;
@@ -44,13 +69,30 @@ public class Hash_One {
                     long start = System.nanoTime();
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
-                        hcode = code.additiveHashWord(helper, word);
-                        index = function.divisionHashFunc(helper, hcode);
+                        if(codeType.equals("polynomial")){
+                            hcode = code.polynomialHashWord(word);
+                        }
+                        else if(codeType.equals("additive")){
+                            hcode = code.additiveHashWord(word);
+                        }
+                        else if(codeType.equals("cyclic")){
+                            hcode = code.cyclicShiftHashWord(word);
+                        }
+                
+                        if(func.equals("multiplication")){
+                            index = function.goldenRatioHashFunc(helper, hcode);        
+                        }
+                        else if(func.equals("mad")){
+                            index = function.multiplyAddDivideHashFunc(helper, hcode);
+                        }
+                        else if(func.equals("division")){
+                            index = function.divisionHashFunc(helper, hcode);
+                        }
                         dictionary.get(index).add(word);
                     }
 
                     for(int i = 0; i < file.size(); i++){
-                        spellCheck(helper, code, function, dictionary, file.get(i));
+                        spellCheck(file.get(i));
                     }
 
                     long end = System.nanoTime();
@@ -74,99 +116,34 @@ public class Hash_One {
         new Hash_One();
     }
 
-    public void spellCheck(Utils helper, HashCodes code, HashFunctions func, ArrayList<LinkedList<String>> dictionary, String word)
+    public void spellCheck(String word)
     {
-        String noChar = word.replaceAll("[^a-zA-Z0-9']", "");
-        String temp;
-        long hcode = code.additiveHashWord(helper, noChar);
-        int index = func.divisionHashFunc(helper, hcode);
+        long hcode = 0;
+        int index = 0;
         boolean found;
-        found = helper.findWord(dictionary, index, noChar);
-        lookUp++;
-        if(!found){
-            if(Character.isUpperCase(word.charAt(0))){
-                lookUp++;
-                temp = noChar.toLowerCase();
-                hcode = code.additiveHashWord(helper, temp);
-                index = func.divisionHashFunc(helper, hcode);
-                found = helper.findWord(dictionary, index, temp);
-            }
-            if(!found){
-                if(word.endsWith("'s")){
-                    lookUp++;
-                    temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.additiveHashWord(helper, temp);
-                    index = func.divisionHashFunc(helper, hcode);
-                    found = helper.findWord(dictionary, index, temp);
-                }
-                if(word.endsWith("s")){
-                    if(!found){
-                        lookUp++;
-                        temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.additiveHashWord(helper, temp);
-                        index = func.divisionHashFunc(helper, hcode);
-                        found = helper.findWord(dictionary, index, temp);
-                        if(!found && word.endsWith("es")){
-                            lookUp++;
-                            temp = noChar.substring(0, noChar.length() - 2);
-                            hcode = code.additiveHashWord(helper, temp);
-                            index = func.divisionHashFunc(helper, hcode);
-                            found = helper.findWord(dictionary, index, temp);
-                        }
-                    }
-                }
-                if(word.endsWith("ed")){
-                    lookUp++;
-                    temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.additiveHashWord(helper, temp);
-                    index = func.divisionHashFunc(helper, hcode);
-                    found = helper.findWord(dictionary, index, temp);;
-                    if(!found && word.endsWith("d")){
-                        lookUp++;
-                        temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.additiveHashWord(helper, temp);
-                        index = func.divisionHashFunc(helper, hcode);
-                        found = helper.findWord(dictionary, index, temp);
-                    }
-                }
-                if(word.endsWith("er")){
-                    lookUp++;
-                    temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.additiveHashWord(helper, temp);
-                    index = func.divisionHashFunc(helper, hcode);
-                    found = helper.findWord(dictionary, index, temp);
-                    if(!found && word.endsWith("r")){
-                        lookUp++;
-                        temp = noChar.substring(0, noChar.length() - 1);
-                        hcode = code.additiveHashWord(helper, temp);
-                        index = func.divisionHashFunc(helper, hcode);
-                        found = helper.findWord(dictionary, index, temp);
-                    }
-                }
-                if(word.endsWith("ing")){
-                    lookUp++;
-                    temp = noChar.substring(0, noChar.length() - 3);
-                    hcode = code.additiveHashWord(helper, temp);
-                    index = func.divisionHashFunc(helper, hcode);
-                    found = helper.findWord(dictionary, index, temp);
-                    if(!found){
-                        lookUp++;
-                        temp = noChar.substring(0, noChar.length() - 3);
-                        temp = temp + "e";
-                        hcode = code.additiveHashWord(helper, temp);
-                        index = func.divisionHashFunc(helper, hcode);
-                        found = helper.findWord(dictionary, index, temp);
-                    }
-                }
-                if(word.endsWith("ly")){
-                    lookUp++;
-                    temp = noChar.substring(0, noChar.length() - 2);
-                    hcode = code.additiveHashWord(helper, temp);
-                    index = func.divisionHashFunc(helper, hcode);
-                    found = helper.findWord(dictionary, index, temp);
-                }
-            }
+        if(codeType.equals("polynomial")){
+            hcode = code.polynomialHashWord(word);
         }
+        else if(codeType.equals("additive")){
+            hcode = code.additiveHashWord(word);
+        }
+        else if(codeType.equals("cyclic")){
+            hcode = code.cyclicShiftHashWord(word);
+        }
+
+        if(func.equals("multiplication")){
+            index = function.goldenRatioHashFunc(helper, hcode);        
+        }
+        else if(func.equals("mad")){
+            index = function.multiplyAddDivideHashFunc(helper, hcode);
+        }
+        else if(func.equals("division")){
+            index = function.divisionHashFunc(helper, hcode);
+        }
+        
+        found = helper.findWord(dictionary, index, word);
+        lookUp++;
+
         if(!found){
             mispelled++;
         }

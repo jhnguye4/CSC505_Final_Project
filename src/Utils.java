@@ -91,12 +91,45 @@ public class Utils {
 
 	public ArrayList<String> processText(Scanner input, ArrayList<String> file) {
 		text = 0;
+        String noChar = "";
+        String temp = "";
+        String word = "";
 		while (input.hasNext()) {
-			String word = input.next();
+			word = input.next();
+            noChar = word.replaceAll("[^a-zA-Z0-9']", "");
+            if(Character.isUpperCase(word.charAt(0))){
+                noChar = noChar.toLowerCase();
+            }
+            temp = noChar;
 
-			file.add(word);
+            if(temp.endsWith("'s")){
+                temp = noChar.substring(0, noChar.length() - 2);
+            }
+            else if(temp.endsWith("es")){
+                temp = noChar.substring(0, noChar.length() - 1);
+            }
+            else if(temp.endsWith("ed")){
+                temp = noChar.substring(0, noChar.length() - 1);
+            }
+            else if(temp.endsWith("er")){
+                temp = noChar.substring(0, noChar.length() - 1);
+            }
+            else if(temp.endsWith("ing")){
+                temp = noChar.substring(0, noChar.length() - 3);
+                temp = temp + "e";
+            }
+            else if(temp.endsWith("ly")){
+                temp = noChar.substring(0, noChar.length() - 2);
+            }
+            else if(temp.endsWith("ies")){
+                temp = noChar.substring(0, noChar.length() - 3);
+                temp = temp + "y";
+            }
+            
+            file.add(temp);
 			text += 1;
-		}
+        }
+			
 		System.out.println("(2) The number of words in the text to be spell-checked: " + text);
 		return file;
 	}
@@ -166,74 +199,74 @@ public class Utils {
 	// return count/dict.size();
 	// }
 
-	public ArrayList<Long> generateHCode(ArrayList<String> words) {
+	// public ArrayList<Long> generateHCode(ArrayList<String> words) {
 
 		
-		HashCodes code = new HashCodes();
-		ArrayList<Long> hcodes = new ArrayList<>();
+	// 	HashCodes code = new HashCodes();
+	// 	ArrayList<Long> hcodes = new ArrayList<>();
 
-		for (String s : words) {
-			String noChar = s.replaceAll("[^a-zA-Z0-9']", "");
-			String temp;
-			long hcode = code.cyclicShiftHashWord(noChar);
-			boolean found;
-			if (Character.isUpperCase(s.charAt(0))) {
-				temp = noChar.toLowerCase();
-				hcode = code.cyclicShiftHashWord(temp);
-			}
-			if (!found) {
-				if (s.endsWith("'s")) {
-					temp = noChar.substring(0, noChar.length() - 2);
-					hcode = code.cyclicShiftHashWord(temp);
-				}
-				if (s.endsWith("s")) {
-					if (!found) {
-						temp = noChar.substring(0, noChar.length() - 1);
-						hcode = code.cyclicShiftHashWord(temp);
-						if (!found && s.endsWith("es")) {
-							temp = noChar.substring(0, noChar.length() - 2);
-							hcode = code.cyclicShiftHashWord(temp);
-						}
-					}
-				}
-				if (s.endsWith("ed")) {
-					temp = noChar.substring(0, noChar.length() - 2);
-					hcode = code.cyclicShiftHashWord(temp);
-					if (!found && s.endsWith("d")) {
-						temp = noChar.substring(0, noChar.length() - 1);
-						hcode = code.cyclicShiftHashWord(temp);
-					}
-				}
-				if (s.endsWith("er")) {
-					temp = noChar.substring(0, noChar.length() - 2);
-					hcode = code.cyclicShiftHashWord(temp);
-					if (!found && s.endsWith("r")) {
-						temp = noChar.substring(0, noChar.length() - 1);
-						hcode = code.cyclicShiftHashWord(temp);
-					}
-				}
-				if (s.endsWith("ing")) {
-					temp = noChar.substring(0, noChar.length() - 3);
-					hcode = code.cyclicShiftHashWord(temp);
-					if (!found) {
-						temp = noChar.substring(0, noChar.length() - 3);
-						temp = temp + "e";
-						hcode = code.cyclicShiftHashWord(temp);
-					}
-				}
-				if (s.endsWith("ly")) {
-					temp = noChar.substring(0, noChar.length() - 2);
-					hcode = code.cyclicShiftHashWord(temp);
-				}
-			}
+	// 	for (String s : words) {
+	// 		String noChar = s.replaceAll("[^a-zA-Z0-9']", "");
+	// 		String temp;
+	// 		long hcode = code.cyclicShiftHashWord(noChar);
+	// 		boolean found;
+	// 		if (Character.isUpperCase(s.charAt(0))) {
+	// 			temp = noChar.toLowerCase();
+	// 			hcode = code.cyclicShiftHashWord(temp);
+	// 		}
+	// 		if (!found) {
+	// 			if (s.endsWith("'s")) {
+	// 				temp = noChar.substring(0, noChar.length() - 2);
+	// 				hcode = code.cyclicShiftHashWord(temp);
+	// 			}
+	// 			if (s.endsWith("s")) {
+	// 				if (!found) {
+	// 					temp = noChar.substring(0, noChar.length() - 1);
+	// 					hcode = code.cyclicShiftHashWord(temp);
+	// 					if (!found && s.endsWith("es")) {
+	// 						temp = noChar.substring(0, noChar.length() - 2);
+	// 						hcode = code.cyclicShiftHashWord(temp);
+	// 					}
+	// 				}
+	// 			}
+	// 			if (s.endsWith("ed")) {
+	// 				temp = noChar.substring(0, noChar.length() - 2);
+	// 				hcode = code.cyclicShiftHashWord(temp);
+	// 				if (!found && s.endsWith("d")) {
+	// 					temp = noChar.substring(0, noChar.length() - 1);
+	// 					hcode = code.cyclicShiftHashWord(temp);
+	// 				}
+	// 			}
+	// 			if (s.endsWith("er")) {
+	// 				temp = noChar.substring(0, noChar.length() - 2);
+	// 				hcode = code.cyclicShiftHashWord(temp);
+	// 				if (!found && s.endsWith("r")) {
+	// 					temp = noChar.substring(0, noChar.length() - 1);
+	// 					hcode = code.cyclicShiftHashWord(temp);
+	// 				}
+	// 			}
+	// 			if (s.endsWith("ing")) {
+	// 				temp = noChar.substring(0, noChar.length() - 3);
+	// 				hcode = code.cyclicShiftHashWord(temp);
+	// 				if (!found) {
+	// 					temp = noChar.substring(0, noChar.length() - 3);
+	// 					temp = temp + "e";
+	// 					hcode = code.cyclicShiftHashWord(temp);
+	// 				}
+	// 			}
+	// 			if (s.endsWith("ly")) {
+	// 				temp = noChar.substring(0, noChar.length() - 2);
+	// 				hcode = code.cyclicShiftHashWord(temp);
+	// 			}
+	// 		}
 			
-			hcodes.add(hcode);
+	// 		hcodes.add(hcode);
 			
-		}
+	// 	}
 		
 		
-		return hcodes;
+	// 	return hcodes;
 
-	}
+	// }
 
 }

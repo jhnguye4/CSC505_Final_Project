@@ -25,8 +25,14 @@ public class HashCollisions {
          return dictionary;
      }
 
-    public void linearProbing(){
-        //TODO
+    public ArrayList<String> linearProbing(ArrayList<String> dictionary, Utils helper){
+        dictionary = new ArrayList<String>(2*helper.getNumDict());
+        
+        for(int i = 0; i < (2*helper.getNumDict()); i++){            
+            dictionary.add(null);
+        }
+       
+        return dictionary;
     }
 
     public void doubleHashing(){

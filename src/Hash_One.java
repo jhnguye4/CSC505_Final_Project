@@ -9,6 +9,7 @@ public class Hash_One {
     ArrayList<String> file = new ArrayList<String>();
     ArrayList<LinkedList<String>> dictionary;
     ArrayList<Vector<Object>> dictionary2;
+    ArrayList<String> dictionary3;
     Utils helper = new Utils();
     HashCodes code = new HashCodes();
     HashFunctions function = new HashFunctions();
@@ -60,7 +61,7 @@ public class Hash_One {
                         dictionary2 = collisions.coalescedChaining(dictionary2, helper);
                     }
                     else if(collision.equals("linear")){
-                        collisions.linearProbing();
+                    	dictionary3 = collisions.linearProbing(dictionary3, helper);
                     }
                     
 
@@ -104,7 +105,25 @@ public class Hash_One {
                             }
                         }
                         else if(collision.equals("linear")){
-
+                        	if(dictionary3.get(index) == null || word.equals(dictionary3.get(index)))
+                            	dictionary3.set(index, word);
+                            else {
+                            	
+                            	int tempind = index;
+                            	int count = 1;
+                            	
+                            	while(dictionary3.get(index) != null) {
+                            		
+                            		index = (tempind + count) % dictionary3.size();
+                            		count++;
+                            		if(index > dictionary3.size()) {
+                            			dictionary3 = extendDict(dictionary3);
+                            		}
+                            		
+                            	}
+                            	
+                            	dictionary3.set(index, word);
+                            }
                         }
                         
                     }
@@ -129,7 +148,7 @@ public class Hash_One {
                     	System.out.println("(6) Load Factor " + helper.countFilledVect(dictionary2));
                     }
                     else if(collision.equals("linear")){
-                        //
+                    	System.out.println("(6) Load Factor " + helper.countFilled(dictionary3));
                     }
                     
                     
@@ -177,7 +196,7 @@ public class Hash_One {
         	found = helper.findWordCoalesced(dictionary2, index, word);
         }
         else if(collision.equals("linear")){
-            //
+        	found = helper.findWordLinear(dictionary3, index, word);
         }
         
         
@@ -210,5 +229,23 @@ public class Hash_One {
     	dict.get(ind).set(1, next);
     	
     	return dict;
+    }
+    
+    public ArrayList<String> extendDict(ArrayList<String> dict) {
+    	
+    	ArrayList<String> re = new ArrayList<>(dict.size() * 2);
+    	
+    	for(int i = 0; i < dict.size() * 2; i++) {
+    		
+    		if(i < dict.size()) {
+    			re.set(i, dict.get(i));
+    		}else {
+    			re.add(null);
+    		}
+    		
+    	}
+    	
+    	return re;
+    	
     }
 }

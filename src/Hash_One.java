@@ -108,18 +108,15 @@ public class Hash_One {
                         	if(dictionary3.get(index) == null || word.equals(dictionary3.get(index)))
                             	dictionary3.set(index, word);
                             else {
-                            	
-                            	int tempind = index;
+                            	              
                             	int count = 1;
+                            	int tempind = index;
                             	
                             	while(dictionary3.get(index) != null) {
                             		
-                            		index = (tempind + count) % dictionary3.size();
                             		count++;
-                            		if(index > dictionary3.size()) {
-                            			dictionary3 = extendDict(dictionary3);
-                            		}
-                            		
+                            		index = (tempind + count) % dictionary3.size(); 
+
                             	}
                             	
                             	dictionary3.set(index, word);
@@ -229,23 +226,5 @@ public class Hash_One {
     	dict.get(ind).set(1, next);
     	
     	return dict;
-    }
-    
-    public ArrayList<String> extendDict(ArrayList<String> dict) {
-    	
-    	ArrayList<String> re = new ArrayList<>(dict.size() * 2);
-    	
-    	for(int i = 0; i < dict.size() * 2; i++) {
-    		
-    		if(i < dict.size()) {
-    			re.set(i, dict.get(i));
-    		}else {
-    			re.add(null);
-    		}
-    		
-    	}
-    	
-    	return re;
-    	
     }
 }

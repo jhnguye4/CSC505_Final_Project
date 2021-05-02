@@ -26,7 +26,7 @@ public class HashCollisions {
      }
 
     public ArrayList<String> linearProbing(ArrayList<String> dictionary, Utils helper){
-        dictionary = new ArrayList<String>(2*helper.getNumDict());
+        dictionary = new ArrayList<String>();
         
         for(int i = 0; i < (2*helper.getNumDict()); i++){            
             dictionary.add(null);

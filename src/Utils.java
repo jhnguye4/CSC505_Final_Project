@@ -189,17 +189,17 @@ public class Utils {
 	public boolean findWordLinear(ArrayList<String> dictionary, int index, String word) {
 		boolean found = false;
 		
-		int count = 1;
 		int tempind = index;
+		int count = 1;
 		
-		while(!found) {
+		while(!found && count < dictionary.size() * 2) {
 			totalProbe++;
+			count++;
 			if(word.equals(dictionary.get(index))) {
 				found = true;
 				break;
 			}else {
 				index = (tempind + count) % dictionary.size();
-				count++;
 			}
 		}
 		

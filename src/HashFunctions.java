@@ -2,7 +2,7 @@ import java.lang.Math;
 
 /**
  * This class is used in the Hash_One file and is used to generate three different types of 
- * hash codes. The hash codes are multiplication, division, and multiply add divide.
+ * compression functions. The compression functions are multiplication, division, and multiply add divide.
  */
 public class HashFunctions {
     /**

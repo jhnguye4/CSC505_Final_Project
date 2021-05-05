@@ -1,1 +1,60 @@
 # CSC505_Final_Project
+CSC 505 Final Project: A Comparison of Hashing Techniques using Spell Checking
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+
+- [Motivation](#motivation)
+- [Specifications](#specifications)
+- [Experiment](#experiment)
+- [Usage](#usage)
+    - [Compilation](#compilation)
+    - [Running the program](#running-the-program)
+- [Collaborators](#collaborators)
+
+## Motivation 
+Hash tables are most commonly used for implementing in-memory tables to improve searching efficiency with the trade-off of using more memory to increase speed. The average time to search has O(1) complexity.If a set of keys are finite and known in advance, a hash table can be implemented where each key is mapped to a unique index, where no two keys will hash to the same value.
+
+## Specification
+Studies have shown that the 25,000 most common English words account for more than 99% of all English written text. Our goal is to compare various hash functions and collision resolution methods and study their performance. The metrics that we will be analyzing will be Average Number of Probes, Runtime(10ths of a second), and Load Factor, percentage of table that is full.
+
+The components we will be implementing are:
+* Hash Codes - Polynomial, Additive, Cyclic Shift
+* Compression Functions - Multiplication, Division, Multiply add Divide 
+* Collision Resolution Methods - Separate Chaining, Coalesced Chaining, Linear Probing
+
+** For more information please refer to our report or slides
+## Experiment 
+For our experiment we will be using a dictionary of 25,000 words on various text sizes to test four hypotheses:
+
+Hypothesis 1:
+* A smaller load factor, i.e. the table is not full, will result in lower probe average and faster run time.
+
+Hypothesis 2:
+* Cyclic shift hash code and polynomial hash code will have significantly lower number of probes and run times compared to additive hash code.
+
+Hypothesis 3:
+* Separate Chaining and Coalesced Chaining collision methods will generate a lower probe average and run time compared to Linear Probing.
+
+Hypothesis 4:
+* The performance across the different hash codes will remain the same regardless of which compression function is used.
+
+## Usage
+The instructions mentioned below will help compile and run the program.
+
+### Compilation
+
+`javac Hash_One.java`
+
+### Running The Program
+`java Hash_One`
+
+Afterwards 
+
+## Team Members 
+
+* Jonathan Nguyen
+* Justin Kirscher
+* Yi Qiu
+* Rahul Ramakrishnan

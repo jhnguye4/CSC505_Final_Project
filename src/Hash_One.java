@@ -21,7 +21,7 @@ public class Hash_One {
 
     public Hash_One() {
         Scanner console = new Scanner(System.in);
-        System.out.print("Enter a dictionary: ");
+        System.out.print("Enter a Dictionary: ");
         String filename = console.next().toLowerCase();
 
         Scanner console2 = new Scanner(System.in);
@@ -29,15 +29,15 @@ public class Hash_One {
         String filename2 = console2.next().toLowerCase();
 
         Scanner console3 = new Scanner(System.in);
-        System.out.print("Enter a hash code(polynomial(p), additive(a), cyclic(c)): ");
+        System.out.print("Enter a Hash Code(polynomial(p), additive(a), cyclic(c)): ");
         codeType  = console3.next().toLowerCase();
 
         Scanner console4 = new Scanner(System.in);
-        System.out.print("Enter a compression function(multiplication(m), multiply add divide(mad), division(d)): ");
+        System.out.print("Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)): ");
         func = console4.next().toLowerCase();
 
         Scanner console5 = new Scanner(System.in);
-        System.out.print("Enter a collision method(separate(s), coalesced(c), linear(l)): ");
+        System.out.print("Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)): ");
         collision = console5.next().toLowerCase();
 
         System.out.println();

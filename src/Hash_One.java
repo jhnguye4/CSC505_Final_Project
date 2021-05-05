@@ -2,24 +2,38 @@ import java.util.*;
 import java.io.*;
 
 public class Hash_One {
-    int lookUp = 0;
+    //Global variables that keep track of how many words were mispelled
     int mispelled = 0;
 
+    //Used to take all words in dictionary text file and place it into this arraylist
     ArrayList<String> arr = new ArrayList<String>();
+    //Used to take all words in text file and place it into this arraylist
     ArrayList<String> file = new ArrayList<String>();
+    //Used for separate chaining method
     ArrayList<LinkedList<String>> dictionary;
+    //Used for coalesced chaining method
     ArrayList<Vector<Object>> dictionary2;
+    //Used for linear probing
     ArrayList<String> dictionary3;
+
+    //Declare and Instantiate the objects to use different components and helper functions
     Utils helper = new Utils();
     HashCodes code = new HashCodes();
     HashFunctions function = new HashFunctions();
     HashCollisions collisions = new HashCollisions();
 
+    //Used to keep track of users options in order to pass to if statements
     String codeType = "";
     String func = "";
     String collision = "";
 
+    /**
+     * This method is used to prompt the user for a dictionary, textfile, and specifications for 
+     * the hash table that they want to generate. This method will then call methods from the other 
+     * objects that were instantiated above to do the computation. 
+     */
     public Hash_One() {
+        //Prompt User for specifications
         Scanner console = new Scanner(System.in);
         System.out.print("Enter a Dictionary: ");
         String filename = console.next().toLowerCase();
@@ -52,8 +66,12 @@ public class Hash_One {
             input2 = helper.getInputScanner(filename2);
             if (input != null) {
                 if (input2 != null) { 
+                    //Takes the dictionary and puts the words into an arraylist
                     arr = helper.processDictWords(input,arr);
+                    //Takes the file and puts the words into an arraylist
                     file = helper.processText(input2,file);
+
+                    //Initialize the collision methods
                     if(collision.equals("s")){
                         dictionary = collisions.separateChaining(dictionary, helper);
                     }
@@ -70,8 +88,12 @@ public class Hash_One {
                     int index = 0;
 
                     long start = System.nanoTime();
+
+                    //Generate the Hash Table
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
+
+                        //hash the dictionary word with the chosen hash code
                         if(codeType.equals("p")){
                             hcode = code.polynomialHashWord(word);
                         }
@@ -81,7 +103,8 @@ public class Hash_One {
                         else if(codeType.equals("c")){
                             hcode = code.cyclicShiftHashWord(word);
                         }
-                
+                        
+                        //get index of the dictionary word with the chosen compression function after hash code is generated
                         if(func.equals("m")){
                             index = function.goldenRatioHashFunc(helper, hcode);        
                         }
@@ -92,6 +115,7 @@ public class Hash_One {
                             index = function.divisionHashFunc(helper, hcode);
                         }
                         
+                        //store the word at index that was generated, collision method will determine how collisions are handled
                         if(collision.equals("s")){
                         	dictionary.get(index).add(word);
                         }
@@ -118,13 +142,12 @@ public class Hash_One {
                             		index = (tempind + count) % dictionary3.size(); 
 
                             	}
-                            	
                             	dictionary3.set(index, word);
                             }
                         }
-                        
                     }
 
+                    //Go through all words of text file to see if its in hash table
                     for(int i = 0; i < file.size(); i++){
                         spellCheck(file.get(i));
                     }
@@ -161,11 +184,18 @@ public class Hash_One {
         new Hash_One();
     }
 
+    /**
+     * Method takes in a word from the text file, generates a hash code, passes hash code to a compression function to get an
+     * index, then searches the hash table to see if it is in it.
+     * @param word
+     */
     public void spellCheck(String word)
     {
         long hcode = 0;
         int index = 0;
         boolean found = false;
+
+        //hash the text file word with the chosen hash code
         if(codeType.equals("p")){
             hcode = code.polynomialHashWord(word);
         }
@@ -176,6 +206,7 @@ public class Hash_One {
             hcode = code.cyclicShiftHashWord(word);
         }
 
+        //get index of the text file word with the chosen compression function after hash code is generated
         if(func.equals("m")){
             index = function.goldenRatioHashFunc(helper, hcode);        
         }
@@ -186,6 +217,7 @@ public class Hash_One {
             index = function.divisionHashFunc(helper, hcode);
         }
         
+        //Call helper function to go through hash table to see if the word is in the hash table
         if(collision.equals("s")){
         	found = helper.findWord(dictionary, index, word);
         }
@@ -195,10 +227,6 @@ public class Hash_One {
         else if(collision.equals("l")){
         	found = helper.findWordLinear(dictionary3, index, word);
         }
-        
-        
-        
-        lookUp++;
 
         if(!found){
             mispelled++;

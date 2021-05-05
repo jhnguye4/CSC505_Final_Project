@@ -29,15 +29,15 @@ public class Hash_One {
         String filename2 = console2.next().toLowerCase();
 
         Scanner console3 = new Scanner(System.in);
-        System.out.print("Enter a hash code(polynomial, additive, cyclic): ");
+        System.out.print("Enter a hash code(polynomial(a), additive(b), cyclic(c)): ");
         codeType  = console3.next().toLowerCase();
 
         Scanner console4 = new Scanner(System.in);
-        System.out.print("Enter a compression function(multiplication, MAD, division): ");
+        System.out.print("Enter a compression function(multiplication(a), MAD(b), division(c)): ");
         func = console4.next().toLowerCase();
 
         Scanner console5 = new Scanner(System.in);
-        System.out.print("Enter a collision method(separate, coalesced, linear): ");
+        System.out.print("Enter a collision method(separate(a), coalesced(b), linear(c)): ");
         collision = console5.next().toLowerCase();
 
         System.out.println();
@@ -54,13 +54,13 @@ public class Hash_One {
                 if (input2 != null) { 
                     arr = helper.processDictWords(input,arr);
                     file = helper.processText(input2,file);
-                    if(collision.equals("separate")){
+                    if(collision.equals("a")){
                         dictionary = collisions.separateChaining(dictionary, helper);
                     }
-                    else if(collision.equals("coalesced")){
+                    else if(collision.equals("b")){
                         dictionary2 = collisions.coalescedChaining(dictionary2, helper);
                     }
-                    else if(collision.equals("linear")){
+                    else if(collision.equals("c")){
                     	dictionary3 = collisions.linearProbing(dictionary3, helper);
                     }
                     
@@ -72,30 +72,30 @@ public class Hash_One {
                     long start = System.nanoTime();
                     for(int i = 0; i < helper.getNumDict(); i++){
                         word = arr.get(i);
-                        if(codeType.equals("polynomial")){
+                        if(codeType.equals("a")){
                             hcode = code.polynomialHashWord(word);
                         }
-                        else if(codeType.equals("additive")){
+                        else if(codeType.equals("b")){
                             hcode = code.additiveHashWord(word);
                         }
-                        else if(codeType.equals("cyclic")){
+                        else if(codeType.equals("c")){
                             hcode = code.cyclicShiftHashWord(word);
                         }
                 
-                        if(func.equals("multiplication")){
+                        if(func.equals("a")){
                             index = function.goldenRatioHashFunc(helper, hcode);        
                         }
-                        else if(func.equals("mad")){
+                        else if(func.equals("b")){
                             index = function.multiplyAddDivideHashFunc(helper, hcode);
                         }
-                        else if(func.equals("division")){
+                        else if(func.equals("c")){
                             index = function.divisionHashFunc(helper, hcode);
                         }
                         
-                        if(collision.equals("separate")){
+                        if(collision.equals("a")){
                         	dictionary.get(index).add(word);
                         }
-                        else if(collision.equals("coalesced")){
+                        else if(collision.equals("b")){
                             if(dictionary2.get(index).get(0) == null)
                             	dictionary2.get(index).set(0, word);
                             else {
@@ -104,7 +104,7 @@ public class Hash_One {
                             	dictionary2.get(next_index).set(0, word);
                             }
                         }
-                        else if(collision.equals("linear")){
+                        else if(collision.equals("c")){
                         	if(dictionary3.get(index) == null || word.equals(dictionary3.get(index)))
                             	dictionary3.set(index, word);
                             else {
@@ -166,33 +166,33 @@ public class Hash_One {
         long hcode = 0;
         int index = 0;
         boolean found = false;
-        if(codeType.equals("polynomial")){
+        if(codeType.equals("a")){
             hcode = code.polynomialHashWord(word);
         }
-        else if(codeType.equals("additive")){
+        else if(codeType.equals("b")){
             hcode = code.additiveHashWord(word);
         }
-        else if(codeType.equals("cyclic")){
+        else if(codeType.equals("c")){
             hcode = code.cyclicShiftHashWord(word);
         }
 
-        if(func.equals("multiplication")){
+        if(func.equals("a")){
             index = function.goldenRatioHashFunc(helper, hcode);        
         }
-        else if(func.equals("mad")){
+        else if(func.equals("b")){
             index = function.multiplyAddDivideHashFunc(helper, hcode);
         }
-        else if(func.equals("division")){
+        else if(func.equals("c")){
             index = function.divisionHashFunc(helper, hcode);
         }
         
-        if(collision.equals("separate")){
+        if(collision.equals("a")){
         	found = helper.findWord(dictionary, index, word);
         }
-        else if(collision.equals("coalesced")){
+        else if(collision.equals("b")){
         	found = helper.findWordCoalesced(dictionary2, index, word);
         }
-        else if(collision.equals("linear")){
+        else if(collision.equals("c")){
         	found = helper.findWordLinear(dictionary3, index, word);
         }
         

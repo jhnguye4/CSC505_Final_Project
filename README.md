@@ -53,8 +53,8 @@ There will then be four prompts:
 * "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)):"
 
 Example: 
-* "Enter a Dictionary: dictionary.txt"
-* "Enter a Text File: harrypotter.txt"
+* "Enter a Dictionary: ../bin/dictionary.txt"
+* "Enter a Text File: ../bin/harrypotter.txt"
 * "Enter a Hash Code(polynomial(p), additive(a), cyclic(c)): p"
 * "Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)): m"
 * "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)): s"

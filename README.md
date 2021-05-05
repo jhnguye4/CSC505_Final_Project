@@ -45,7 +45,7 @@ The instructions mentioned below will help compile and run the program.
 
 `java Hash_One`
 
-There will then be four prompts:
+There will then be five prompts:
 * "Enter a Dictionary:"
 * "Enter a Text File:"
 * "Enter a Hash Code(polynomial(p), additive(a), cyclic(c)):"

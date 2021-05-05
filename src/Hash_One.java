@@ -233,7 +233,12 @@ public class Hash_One {
         }
     }
     
-    
+    /**
+     * Starts from the end of the Hash table, find the first empty slot if there is any.
+     * 
+     * @param dict a Hash Table that stores the dictionary
+     * @return the index of an empty slot
+     */
     public int findLastEmpty(ArrayList<Vector<Object>> dict) {
     	
     	for(int i = dict.size() - 1; i > 0; i--) {
@@ -245,6 +250,14 @@ public class Hash_One {
     	
     }
     
+    /**
+     * Add the pointer information of replacement index to the last filled slot.
+     * 
+     * @param dict dict a Hash Table that stores the dictionary
+     * @param ind the initial index where collision happens
+     * @param next the replacement index
+     * @return updated Hash Table.
+     */
     public ArrayList<Vector<Object>> updatePointer(ArrayList<Vector<Object>> dict, int ind, int next){
     	
     	while(dict.get(ind).get(1) != null) {

@@ -152,6 +152,13 @@ public class Utils {
 		return file;
 	}
 
+	/**
+	 * Check if a word is in the Hash table, count the probes spent on finding the word.
+	 * @param dictionary Hash Table that stores the dictionary
+	 * @param index initial index of the word
+	 * @param word word to look up.
+	 * @return whether the word is found or not.
+	 */
 	public boolean findWord(ArrayList<LinkedList<String>> dictionary, int index, String word) {
 		boolean found = false;
 		LinkedList<String> current = dictionary.get(index);
@@ -166,6 +173,13 @@ public class Utils {
 		return found;
 	}
 
+	/**
+	 * Check if a word is in the Hash table, count the probes spent on finding the word.
+	 * @param dictionary Hash Table that stores the dictionary
+	 * @param index initial index of the word
+	 * @param word word to look up.
+	 * @return whether the word is found or not.
+	 */
 	public boolean findWordCoalesced(ArrayList<Vector<Object>> dictionary, int index, String word) {
 		boolean found = false;
 		Vector<Object> current = dictionary.get(index);
@@ -186,6 +200,13 @@ public class Utils {
 		return found;
 	}
 	
+	/**
+	 * Check if a word is in the Hash table, count the probes spent on finding the word.
+	 * @param dictionary Hash Table that stores the dictionary
+	 * @param index initial index of the word
+	 * @param word word to look up.
+	 * @return whether the word is found or not.
+	 */
 	public boolean findWordLinear(ArrayList<String> dictionary, int index, String word) {
 		boolean found = false;
 		
@@ -206,6 +227,10 @@ public class Utils {
 		return found;
 	}
 
+	/**
+	 * Get dictionary size.
+	 * @return number of words in the dictionary.
+	 */
 	public int getNumDict() {
 		return n;
 	}
@@ -218,6 +243,13 @@ public class Utils {
 		return totalProbe;
 	}
 
+	
+	/**
+	 * Count how many slots are used in the hash table.
+	 * 
+	 * @param dict HashTable that stores the dictionary
+	 * @return a load factor
+	 */
 	public double countFilled(ArrayList<String> dict) {
 
 		int count = 0;
@@ -231,6 +263,12 @@ public class Utils {
 
 	}
 
+	/**
+	 * Count how many slots are used in the hash table.
+	 * 
+	 * @param dict HashTable that stores the dictionary
+	 * @return a load factor
+	 */
 	public double countFilledSeparateChaining(ArrayList<LinkedList<String>> dict) {
 
 		int count = 0;
@@ -245,6 +283,12 @@ public class Utils {
 
 	}
 
+	/**
+	 * Count how many slots are used in the hash table.
+	 * 
+	 * @param dict HashTable that stores the dictionary
+	 * @return a load factor
+	 */
 	public double countFilledVect(ArrayList<Vector<Object>> dict) {
 
 		int count = 0;

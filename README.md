@@ -8,9 +8,7 @@ CSC 505 Final Project: A Comparison of Hashing Techniques using Spell Checking
 - [Motivation](#motivation)
 - [Specifications](#specifications)
 - [Experiment](#experiment)
-- [Usage](#usage)
-    - [Compilation](#compilation)
-    - [Running the program](#running-the-program)
+- [Running Program](#running-program)
 - [Collaborators](#collaborators)
 
 ## Motivation 
@@ -40,17 +38,26 @@ Hypothesis 3:
 Hypothesis 4:
 * The performance across the different hash codes will remain the same regardless of which compression function is used.
 
-## Usage
+## Running The Program
 The instructions mentioned below will help compile and run the program.
-
-### Compilation
 
 `javac Hash_One.java`
 
-### Running The Program
 `java Hash_One`
 
-Afterwards 
+There will then be four prompts:
+* "Enter a Dictionary:"
+* "Enter a Text File:"
+* "Enter a Hash Code(polynomial(p), additive(a), cyclic(c)):"
+* "Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)):"
+* "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)):"
+
+Example: 
+* "Enter a Dictionary: dictionary.txt"
+* "Enter a Text File: harrypotter.txt"
+* "Enter a Hash Code(polynomial(p), additive(a), cyclic(c)): p"
+* "Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)): m"
+* "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)): s"
 
 ## Team Members 
 

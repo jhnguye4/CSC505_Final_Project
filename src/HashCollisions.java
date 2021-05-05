@@ -10,25 +10,29 @@ public class HashCollisions {
         return dictionary;
     }
 
-    // public ArrayList<Vector> coalescedChaining(ArrayList<Vector> dictionary, Utils helper){
-    //     dictionary = new ArrayList<Vector>(helper.getNumDict());
+     public ArrayList<Vector<Object>> coalescedChaining(ArrayList<Vector<Object>> dictionary, Utils helper){
+         dictionary = new ArrayList<Vector<Object>>(2*helper.getNumDict());
         
-    //     for(int i = 0; i < dictionary.size(); i++){
-    //         LinkedList<String> list = new LinkedList<String>();
+         for(int i = 0; i < (2*helper.getNumDict()); i++){            
+        	 Vector<Object> v = new Vector<Object>();
             
-    //         Vector v = new Vector();
+             v.add(null);
+             v.add(null);
             
-    //         v.add(null);
-    //         v.add(null);
-            
-    //         dictionary.add(v);
-    //     }
+             dictionary.add(v);
+         }
         
-    //     return dictionary;
-    // }
+         return dictionary;
+     }
 
-    public void linearProbing(){
-        //TODO
+    public ArrayList<String> linearProbing(ArrayList<String> dictionary, Utils helper){
+        dictionary = new ArrayList<String>();
+        
+        for(int i = 0; i < (2*helper.getNumDict()); i++){            
+            dictionary.add(null);
+        }
+       
+        return dictionary;
     }
 
     public void doubleHashing(){

@@ -52,6 +52,12 @@ There will then be five prompts:
 * "Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)):"
 * "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)):"
 
+Example: 
+* "Enter a Dictionary: ../bin/dictionary.txt"
+* "Enter a Text File: ../bin/harrypotter.txt"
+* "Enter a Hash Code(polynomial(p), additive(a), cyclic(c)): p"
+* "Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)): m"
+* "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)): s"
 
 ### Inputs: 
 
@@ -63,13 +69,6 @@ There will then be five prompts:
 * harrypotter    = 510,000 words
 
 ### Outputs: stdout
-
-Example: 
-* "Enter a Dictionary: ../bin/dictionary.txt"
-* "Enter a Text File: ../bin/harrypotter.txt"
-* "Enter a Hash Code(polynomial(p), additive(a), cyclic(c)): p"
-* "Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)): m"
-* "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)): s"
 
 ## Team Members 
 

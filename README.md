@@ -52,6 +52,18 @@ There will then be five prompts:
 * "Enter a Compression Function(multiplication(m), multiply add divide(mad), division(d)):"
 * "Enter a Collision Resolution Method(separate(s), coalesced(c), linear(l)):"
 
+
+### Inputs: 
+
+* alice            = 25,000 words
+* thehobbit        = 100,000
+* searchoflosttime = 200,000
+* orderofphoenix   = 300,000
+* stormofswords    = 450,000
+* harrypotter    = 510,000 words
+
+### Outputs: stdout
+
 Example: 
 * "Enter a Dictionary: ../bin/dictionary.txt"
 * "Enter a Text File: ../bin/harrypotter.txt"
